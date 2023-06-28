@@ -263,7 +263,7 @@ class HomeController extends GetxController {
                     border: pw.Border(
                         bottom:
                             pw.BorderSide(width: 0.5, color: PdfColors.grey))),
-                child: pw.Text('QR codesş',
+                child: pw.Text('QR codes',
                     style: pw.Theme.of(context).defaultTextStyle.copyWith(
                         color: PdfColors.black,
                         font: pw.Font.ttf(fonts.roboto.regular))));
