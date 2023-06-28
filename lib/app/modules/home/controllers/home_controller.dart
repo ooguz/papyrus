@@ -8,6 +8,7 @@ import 'package:papyrus_neo/helpers.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:crypto/crypto.dart';
+import 'package:printing/printing.dart';
 
 import 'package:file_picker/file_picker.dart';
 
@@ -21,9 +22,9 @@ class HomeController extends GetxController {
     ['Line', 'SHA256']
   ];
   late pw.ThemeData pdfTheme;
-  var paperSizeSelection = <bool>[true, false];
-  bool qrChecked = true;
-  bool ocrChecked = true;
+  var paperSizeSelection = <bool>[true, false].obs;
+  final qrChecked = true.obs;
+  final ocrChecked = true.obs;
   final currentStep = 0.obs;
   String? directoryToWrite;
   late pw.Document pdf;
@@ -100,52 +101,48 @@ class HomeController extends GetxController {
                       directoryToWrite = selectedDirectory;
                     },
                     child: Text('Dosyanın kaydedileceği yeri seçin')),
-                ToggleButtons(
-                  borderRadius: BorderRadius.circular(4.0),
-                  constraints: BoxConstraints(minHeight: 36.0),
-                  isSelected: [true, false],
-                  onPressed: (index) {
-                    // Respond to button selection
-                  },
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text('A4'),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text('Letter'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Checkbox(
-                      value: true,
-                      onChanged: (bool? value) => {},
-                    ),
-                    const Text('Generate QR Page'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Checkbox(value: true, onChanged: (bool? value) => {}),
-                    const Text('Generate OCR Page'),
-                  ],
-                )
+                Obx(() => ToggleButtons(
+                      borderRadius: BorderRadius.circular(4.0),
+                      constraints: BoxConstraints(minHeight: 36.0),
+                      isSelected: paperSizeSelection,
+                      onPressed: (index) {
+                        paperSizeSelection.value =
+                            paperSizeSelection.reversed.toList();
+                      },
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text('A4'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text('Letter'),
+                        ),
+                      ],
+                    )),
+                Obx(() => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: qrChecked.value,
+                          onChanged: (bool? value) => qrChecked.value = value!,
+                        ),
+                        const Text('Generate QR Page'),
+                      ],
+                    )),
+                Obx(() => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                            value: ocrChecked.value,
+                            onChanged: (bool? value) =>
+                                ocrChecked.value = value!),
+                        const Text('Generate OCR Page'),
+                      ],
+                    ))
               ],
             ),
           ),
-          ElevatedButton.icon(
-              onPressed: () async => generatePdf(
-                  path: "/home/m3rcury/papyrustest3.pdf",
-                  qrCodes: true,
-                  ocrText: true,
-                  letterPaper: false),
-              icon: const Icon(Icons.save),
-              label: const Text('SAVE PDF')),
         ],
       ),
       isActive: true,
@@ -181,7 +178,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> readFile(String path) async {
-    int qr_size = 1200;
+    int qr_size = 1024;
     File file = File(path);
     String contents;
     List<String> lines;
@@ -336,19 +333,45 @@ class HomeController extends GetxController {
   Widget controlsBuilder(BuildContext context, ControlsDetails details) {
     String nextLabel;
     IconData nextIcon;
+    void Function()? nextAction;
     switch (details.currentStep) {
       case 0:
         nextLabel = "Choose file";
         nextIcon = Icons.file_open;
+        nextAction = () async {
+          final result = await filePicker();
+          if (!result) {
+            Get.snackbar("Error", "File could not be opened",
+                margin: EdgeInsets.all(15),
+                snackPosition: SnackPosition.BOTTOM);
+            return;
+          }
+          details.onStepContinue!();
+        };
       case 1:
         nextLabel = "Build PDF";
         nextIcon = Icons.picture_as_pdf;
+        nextAction = () async {
+          generatePdf(
+              path: directoryToWrite!,
+              qrCodes: qrChecked.value,
+              ocrText: ocrChecked.value,
+              letterPaper: paperSizeSelection[0]);
+          details.onStepContinue!();
+        };
       case 2:
         nextLabel = "Print";
         nextIcon = Icons.print;
+        nextAction = () async {
+          await Printing.layoutPdf(
+              onLayout: (PdfPageFormat format) async => pdf.save());
+        };
       default:
         nextLabel = "Next";
         nextIcon = Icons.arrow_forward;
+        nextAction = () {
+          details.onStepContinue!();
+        };
     }
 
     return Align(
@@ -365,18 +388,7 @@ class HomeController extends GetxController {
                   )
                 : Center(),
             ElevatedButton.icon(
-              onPressed: () async {
-                if (details.currentStep == 0) {
-                  final result = await filePicker();
-                  if (!result) {
-                    Get.snackbar("Error", "File could not be opened",
-                        margin: EdgeInsets.all(15),
-                        snackPosition: SnackPosition.BOTTOM);
-                    return;
-                  }
-                }
-                details.onStepContinue!();
-              },
+              onPressed: nextAction,
               icon: Icon(nextIcon),
               label: Text(nextLabel),
             ),
