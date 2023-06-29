@@ -1,0 +1,26 @@
+display_name: Papyrus
+package_name: papyrus
+maintainer:
+  name: Özcan Oğuz
+  email: hi@ooguz.net
+co_authors:
+  - name: Özcan Oğuz
+    email: hi@ooguz.net
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+icon: assets/logo.png
+
+keywords:
+  - Papyrus
+  - paper
+  - backup
+
+generic_name: Papyrus
+
+categories:
+  - Utility
+  - Development
+
+startup_notify: true

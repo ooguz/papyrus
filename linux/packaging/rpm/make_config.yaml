@@ -1,0 +1,23 @@
+icon: assets/logo.png
+summary: A simple paper backup tool
+group: Applications/Utilities
+vendor: Özcan Oğuz
+packager: Özcan Oğuz
+packagerEmail: hi@ooguz.net
+license: GPLv3
+url: https://github.com/ooguz/papyrus
+
+display_name: Papyrus
+
+keywords:
+  - Papyrus
+  - paper
+  - backup
+
+generic_name: Papyrus
+
+categories:
+  - Utility
+  - Development
+
+startup_notify: true

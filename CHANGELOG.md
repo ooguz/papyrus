@@ -17,6 +17,10 @@
  along with Papyrus.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+# 1.0.1
+
+- Add AppImage, deb and rpm packages
+
 # 1.0.0
 
 - Initial version, basic functionality

@@ -117,7 +117,7 @@ class HomeController extends GetxController {
     }
   }
 
-  void generatePdf(
+  Future<void> generatePdf(
       {required String path,
       bool qrCodes = true,
       bool ocrText = true,
@@ -278,11 +278,18 @@ class HomeController extends GetxController {
             return;
           }
           directoryToWrite.value = selectedDirectory;
-          generatePdf(
-              path: directoryToWrite.value,
-              qrCodes: qrChecked.value,
-              ocrText: ocrChecked.value,
-              letterPaper: paperSizeSelection[1]);
+          try {
+            await generatePdf(
+                path: directoryToWrite.value,
+                qrCodes: qrChecked.value,
+                ocrText: ocrChecked.value,
+                letterPaper: paperSizeSelection[1]);
+          } catch (e) {
+            Get.snackbar("Error", "PDF creation failed",
+                snackPosition: SnackPosition.BOTTOM);
+            loading.value = false;
+            return;
+          }
           details.onStepContinue!();
           loading.value = false;
         };
