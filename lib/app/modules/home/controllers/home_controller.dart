@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:papyrus/constants.dart';
@@ -26,8 +25,10 @@ class HomeController extends GetxController {
   final qrChecked = true.obs;
   final ocrChecked = true.obs;
   final currentStep = 0.obs;
-  String? directoryToWrite;
+  final directoryToWrite = ".".obs;
   late pw.Document pdf;
+
+  final loading = false.obs;
 
   @override
   void onInit() async {
@@ -47,138 +48,40 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  late final steps = <Step>[
-    Step(
-      title: Text("Welcome!"),
-      content: Center(
-        child: Padding(
-            padding: EdgeInsets.all(50),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  getLogo(48),
-                  AutoSizeText(
-                    "Welcome to Papyrus!",
-                    maxLines: 1,
-                    style: Get.theme.textTheme.titleLarge,
-                  ),
-                  AutoSizeText(
-                    "Papyrus is a paper backup tool that you can turn your text files into machine readable PDF files.",
-                    textAlign: TextAlign.center,
-                    style: Get.theme.textTheme.bodyLarge,
-                  ),
-                  AutoSizeText(
-                    "You can use it to make hard copy backups for your GnuPG or SSH keys, password manager or 2FA backups etc. Papyrus will split your file into QR codes (with error correction) and lines of your file with checksums for each line. Finally you get a PDF file that you can print and keep in a safe place.",
-                    textAlign: TextAlign.center,
-                    style: Get.theme.textTheme.bodyLarge,
-                  ),
-                ])),
-      ),
-      isActive: true,
-    ),
-    Step(
-      title: Text("Configure"),
-      content: Column(
-        children: [
-          Container(
-            child: Column(
-              children: [
-                Obx(() => Text('Seçilen dosya: ${filename.value}')),
-                ElevatedButton(
-                    onPressed: () async {
-                      String? selectedDirectory =
-                          await FilePicker.platform.saveFile(
-                        dialogTitle: 'Please select an output file:',
-                        fileName: 'paper-backup.pdf',
-                      );
-                      directoryToWrite = selectedDirectory;
-                    },
-                    child: Text('Dosyanın kaydedileceği yeri seçin')),
-                Obx(() => ToggleButtons(
-                      borderRadius: BorderRadius.circular(4.0),
-                      constraints: BoxConstraints(minHeight: 36.0),
-                      isSelected: paperSizeSelection,
-                      onPressed: (index) {
-                        paperSizeSelection.value =
-                            paperSizeSelection.reversed.toList();
-                      },
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text('A4'),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text('Letter'),
-                        ),
-                      ],
-                    )),
-                Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: qrChecked.value,
-                          onChanged: (bool? value) => qrChecked.value = value!,
-                        ),
-                        const Text('Generate QR Page'),
-                      ],
-                    )),
-                Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                            value: ocrChecked.value,
-                            onChanged: (bool? value) =>
-                                ocrChecked.value = value!),
-                        const Text('Generate OCR Page'),
-                      ],
-                    ))
-              ],
-            ),
-          ),
-        ],
-      ),
-      isActive: true,
-    ),
-    Step(
-        title: Text("Final"),
-        content: Center(),
-        isActive: true,
-        state: StepState.complete),
-  ];
-
-  Future<bool> filePicker() async {
+  Future<FileResult> filePicker() async {
     FilePickerResult? result;
     try {
       result = await FilePicker.platform.pickFiles();
     } catch (e) {
       debugPrint(e.toString());
-      return false;
+      return FileResult.unknown;
     }
     if (result != null) {
       PlatformFile file = result.files.first;
       try {
         await readFile(file.path!);
+      } on PathAccessException catch (e) {
+        debugPrint(e.toString());
+        return FileResult.permission;
+      } on FileSystemException catch (e) {
+        debugPrint(e.message.toString());
+        if (e.message.contains("encoding")) {
+          return FileResult.encoding;
+        }
+        return FileResult.unknown;
       } catch (e) {
         debugPrint(e.toString());
-        return false;
+        return FileResult.unknown;
       }
       filename.value = file.path!;
-      return true;
+      return FileResult.success;
     } else {
-      return false;
+      return FileResult.unknown;
     }
   }
 
   Future<void> readFile(String path) async {
-    int qr_size = 1024;
+    int qrSize = 1024;
     File file = File(path);
     String contents;
     List<String> lines;
@@ -186,18 +89,17 @@ class HomeController extends GetxController {
       contents = await file.readAsString();
       lines = await file.readAsLines();
     } catch (e) {
-      debugPrint(e.toString());
       rethrow;
     }
-    int modulo = contents.length % qr_size;
-    int total_codes = (contents.length / qr_size).round();
+    int modulo = contents.length % qrSize;
+    int totalCodes = (contents.length / qrSize).round();
     int position = 0;
-    for (int i = 1; i <= total_codes; i++) {
+    for (int i = 1; i <= totalCodes; i++) {
       String identifier = '${i - 1}' '~';
-      if (i != total_codes) {
-        String qrString = contents.substring(position, i * qr_size);
+      if (i != totalCodes) {
+        String qrString = contents.substring(position, i * qrSize);
         qrStrings.add('$identifier$qrString');
-        position = i * qr_size + 1;
+        position = i * qrSize + 1;
       } else {
         String qrString = contents.substring(position, position + modulo - 1);
         qrStrings.add('$identifier$qrString');
@@ -206,10 +108,6 @@ class HomeController extends GetxController {
     for (var element in lines) {
       fileLines.add(element);
     }
-    /* for (var element in qrStrings) {
-      print(element);
-      print('------------------');
-    } */
   }
 
   void _genHashes() {
@@ -226,8 +124,7 @@ class HomeController extends GetxController {
       bool letterPaper = false}) async {
     final pageFormat =
         letterPaper == false ? PdfPageFormat.a4 : PdfPageFormat.letter;
-    if (qrCodes = true) {
-      _genHashes();
+    if (qrCodes) {
       for (var element in qrStrings) {
         final qrColumn = pw.Column(
           children: [
@@ -283,6 +180,8 @@ class HomeController extends GetxController {
               ]));
     }
     if (ocrText == true) {
+      _genHashes();
+
       pdf.addPage(pw.MultiPage(
           header: (pw.Context context) {
             return pw.Container(
@@ -331,31 +230,67 @@ class HomeController extends GetxController {
     String nextLabel;
     IconData nextIcon;
     void Function()? nextAction;
+    Widget backButton = ElevatedButton.icon(
+      onPressed: details.onStepCancel,
+      icon: const Icon(Icons.arrow_back),
+      label: const Text("Back"),
+    );
     switch (details.currentStep) {
       case 0:
         nextLabel = "Choose file";
         nextIcon = Icons.file_open;
         nextAction = () async {
           final result = await filePicker();
-          if (!result) {
-            Get.snackbar("Error", "File could not be opened",
-                margin: EdgeInsets.all(15),
+          if (result != FileResult.success) {
+            String message;
+            switch (result) {
+              case FileResult.encoding:
+                message = "Only text files are supported";
+                break;
+              case FileResult.permission:
+                message = "File could not be opened, permission denied";
+                break;
+              default:
+                message = "File could not be opened, unknown error has occured";
+            }
+            Get.snackbar("Error", message,
+                margin: const EdgeInsets.all(15),
                 snackPosition: SnackPosition.BOTTOM);
             return;
           }
           details.onStepContinue!();
         };
+        backButton = const Center();
       case 1:
         nextLabel = "Build PDF";
         nextIcon = Icons.picture_as_pdf;
         nextAction = () async {
+          loading.value = true;
+
+          String? selectedDirectory = await FilePicker.platform.saveFile(
+            dialogTitle: 'Please select an output file:',
+            fileName: 'paper-backup.pdf',
+          );
+          if (selectedDirectory == null) {
+            loading.value = false;
+            Get.snackbar("Error", "Please select a save directory",
+                snackPosition: SnackPosition.BOTTOM);
+            return;
+          }
+          directoryToWrite.value = selectedDirectory;
           generatePdf(
-              path: directoryToWrite!,
+              path: directoryToWrite.value,
               qrCodes: qrChecked.value,
               ocrText: ocrChecked.value,
-              letterPaper: paperSizeSelection[0]);
+              letterPaper: paperSizeSelection[1]);
           details.onStepContinue!();
+          loading.value = false;
         };
+        backButton = ElevatedButton.icon(
+          onPressed: details.onStepCancel,
+          icon: const Icon(Icons.arrow_back),
+          label: const Text("Back"),
+        );
       case 2:
         nextLabel = "Print";
         nextIcon = Icons.print;
@@ -363,6 +298,11 @@ class HomeController extends GetxController {
           await Printing.layoutPdf(
               onLayout: (PdfPageFormat format) async => pdf.save());
         };
+        backButton = ElevatedButton.icon(
+          onPressed: () => currentStep.value = 0,
+          icon: const Icon(Icons.refresh),
+          label: const Text("Restart"),
+        );
       default:
         nextLabel = "Next";
         nextIcon = Icons.arrow_forward;
@@ -377,13 +317,14 @@ class HomeController extends GetxController {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            details.currentStep != 0
+            backButton,
+            currentStep.value == 2
                 ? ElevatedButton.icon(
-                    onPressed: details.onStepCancel,
-                    icon: Icon(Icons.arrow_back),
-                    label: Text("Back"),
+                    onPressed: () => exit(0),
+                    icon: const Icon(Icons.close),
+                    label: const Text("Close app"),
                   )
-                : Center(),
+                : const Center(),
             ElevatedButton.icon(
               onPressed: nextAction,
               icon: Icon(nextIcon),

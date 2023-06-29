@@ -56,3 +56,5 @@ class Roboto {
     return roboto;
   }
 }
+
+enum FileResult { success, permission, encoding, unknown }

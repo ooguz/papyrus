@@ -1,7 +1,11 @@
 name: papyrus
 version: 1.0.0+1
 publish_to: none
-description: A new Flutter project.
+description: A simple paper backup tool.
+homepage: https://github.com/ooguz/papyrus
+issue_tracker: https://github.com/ooguz/papyrus/issues
+repository: https://github.com/ooguz/papyrus
+
 environment: 
   sdk: '>=3.0.2 <4.0.0'
 
@@ -14,6 +18,9 @@ dependencies:
   file_picker: ^5.3.2
   auto_size_text: ^3.0.0
   printing: ^5.11.0
+  crypto: ^3.0.3
+  url_launcher: ^6.1.11
+  about: ^2.1.3
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -26,4 +33,18 @@ flutter:
     - assets/
     - assets/roboto/
     - assets/courier/
+    - README.md
+    - CHANGELOG.md
+    - LICENSE
 
+flutter_launcher_icons:
+  windows:
+    generate: true
+    image_path: "assets/logo.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/logo.png"
+  linux:
+    generate: true
+    image_path: "assets/logo.png"
