@@ -214,11 +214,8 @@ class HomeController extends GetxController {
 
   void _genHashes() {
     for (var element in fileLines) {
-      List<int> bytes = utf8.encode(element);
-      Digest hash = sha256.convert(bytes);
-      String hashToDisplay = hash.toString().substring(0, 8);
-      List<String> elementToAdd = [element, hashToDisplay];
-      hashes.add(elementToAdd);
+      Digest hash = sha256.convert(utf8.encode(element));
+      hashes.add([element, hash.toString().substring(0, 8)]);
     }
   }
 
