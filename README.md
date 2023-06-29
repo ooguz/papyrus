@@ -31,7 +31,7 @@ My personal recommendation is to print your paper backup with laser printer to a
 
 ## Installation
 
-Go to the [Releases](https://github.com/ooguz/papyrus) page and download the package for your distribution and signatures.
+Go to the [Releases](https://github.com/ooguz/papyrus/releases) page and download the package for your distribution and signatures.
 
 ### Checksum and signature verification
 
