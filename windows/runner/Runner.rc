@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "papyrus_neo" "\0"
+            VALUE "FileDescription", "papyrus" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "papyrus_neo" "\0"
+            VALUE "InternalName", "papyrus" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "papyrus_neo.exe" "\0"
-            VALUE "ProductName", "papyrus_neo" "\0"
+            VALUE "OriginalFilename", "papyrus.exe" "\0"
+            VALUE "ProductName", "papyrus" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

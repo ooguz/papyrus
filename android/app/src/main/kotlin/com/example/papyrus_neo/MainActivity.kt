@@ -1,4 +1,4 @@
-package com.example.papyrus_neo
+package dev.ooguz.papyrus
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,6 @@
 {
-    "name": "papyrus_neo",
-    "short_name": "papyrus_neo",
+    "name": "papyrus",
+    "short_name": "papyrus",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
@@ -8,8 +8,7 @@
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
-    "icons": [
-        {
+    "icons": [{
             "src": "icons/Icon-192.png",
             "sizes": "192x192",
             "type": "image/png"

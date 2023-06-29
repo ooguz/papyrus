@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:papyrus_neo/constants.dart';
-import 'package:papyrus_neo/helpers.dart';
+import 'package:papyrus/constants.dart';
+import 'package:papyrus/helpers.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:crypto/crypto.dart';
@@ -149,7 +149,7 @@ class HomeController extends GetxController {
     ),
     Step(
         title: Text("Final"),
-        content: Text("content3"),
+        content: Center(),
         isActive: true,
         state: StepState.complete),
   ];

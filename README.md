@@ -1,4 +1,4 @@
-# papyrus_neo
+# papyrus
 
 A new Flutter project.
 
