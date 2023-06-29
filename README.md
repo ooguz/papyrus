@@ -71,6 +71,14 @@ sudo dpkg -i papyrus*.deb
 papyrus
 ```
 
+## Example output
+
+|QR pages|OCR pages|
+|----|----|
+|![image](https://github.com/ooguz/papyrus/assets/17238191/6c26d924-b083-431f-9979-086069a2131a)|![image](https://github.com/ooguz/papyrus/assets/17238191/b37a2f86-c0c7-4d3f-a1b8-cb3d3f61c55a)|
+
+
+
 
 ## Roadmap
 
