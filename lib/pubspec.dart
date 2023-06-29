@@ -3,13 +3,13 @@
 // ignore_for_file: public_member_api_docs, constant_identifier_names, avoid_classes_with_only_static_members
 
 mixin Pubspec {
-  static final buildDate = DateTime.utc(2023, 6, 29, 5, 31, 49);
+  static final buildDate = DateTime.utc(2023, 6, 29, 17, 47, 19);
 
   static const name = 'papyrus';
 
-  static const versionFull = '1.0.0+1';
+  static const versionFull = '1.0.2+1';
 
-  static const version = '1.0.0';
+  static const version = '1.0.2';
 
   static const versionSmall = '1.0';
 
@@ -17,7 +17,7 @@ mixin Pubspec {
 
   static const versionMinor = 0;
 
-  static const versionPatch = 0;
+  static const versionPatch = 2;
 
   static const versionBuild = 1;
 
@@ -67,6 +67,9 @@ mixin Pubspec {
       'assets/',
       'assets/roboto/',
       'assets/courier/',
+      'README.md',
+      'CHANGELOG.md',
+      'LICENSE',
     ],
   };
 
