@@ -22,6 +22,8 @@ class HomeController extends GetxController {
   ];
   late pw.ThemeData pdfTheme;
   var paperSizeSelection = <bool>[true, false].obs;
+  final pageTitle = "Papyrus paper backup of ".obs;
+  final pageTitleController = TextEditingController();
   final qrChecked = true.obs;
   final ocrChecked = true.obs;
   final zebraChecked = true.obs;
@@ -33,6 +35,17 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    await onRestart();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    pageTitleController.dispose();
+  }
+
+  Future<void> onRestart() async {
+    currentStep.value = 0;
     fonts = await Fonts.load();
     pdfTheme = pw.ThemeData.withFont(
       base: pw.Font.ttf(fonts.roboto.regular),
@@ -42,11 +55,12 @@ class HomeController extends GetxController {
     );
 
     pdf = pw.Document(
+        title: "Papyrus paper backup",
         creator: 'Papyrus',
         subject: 'Paper Backup',
         producer: 'Papyrus - https://github.com/ooguz/papyrus',
         theme: pdfTheme);
-    super.onInit();
+    pageTitleController.text = pageTitle.value;
   }
 
   Function(bool?)? get zebra =>
@@ -78,6 +92,7 @@ class HomeController extends GetxController {
         return FileResult.unknown;
       }
       filename.value = file.path!;
+      pageTitleController.text = pageTitle.value + file.name;
       return FileResult.success;
     } else {
       return FileResult.unknown;
@@ -139,7 +154,7 @@ class HomeController extends GetxController {
                     errorCorrectLevel: pw.BarcodeQRCorrectionLevel.high),
                 data: element),
             pw.Padding(
-                padding: const pw.EdgeInsets.all(4),
+                padding: const pw.EdgeInsets.only(top: 4),
                 child: pw.Text(
                     '${qrStrings.indexOf(element) + 1}/${qrStrings.length}',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold)))
@@ -150,36 +165,35 @@ class HomeController extends GetxController {
 
       pdf.addPage(pw.MultiPage(
           pageFormat: pageFormat,
+          margin: const pw.EdgeInsets.only(top: 25, bottom: 25),
+          mainAxisAlignment: pw.MainAxisAlignment.center,
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
           header: (pw.Context context) {
             return pw.Container(
-                alignment: pw.Alignment.centerRight,
-                margin:
-                    const pw.EdgeInsets.only(bottom: 6.0 * PdfPageFormat.mm),
-                padding:
-                    const pw.EdgeInsets.only(bottom: 6.0 * PdfPageFormat.mm),
-                decoration: const pw.BoxDecoration(
-                    border: pw.Border(
-                        bottom:
-                            pw.BorderSide(width: 0.5, color: PdfColors.grey))),
-                child: pw.Text('QR codes',
-                    style: pw.Theme.of(context).defaultTextStyle.copyWith(
-                        color: PdfColors.black,
-                        font: pw.Font.ttf(fonts.roboto.regular))));
-          },
-          footer: (pw.Context context) {
-            return pw.Container(
                 alignment: pw.Alignment.center,
-                margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-                child: pw.Text('${context.pageNumber} / ${context.pagesCount}',
-                    style: pw.Theme.of(context)
-                        .defaultTextStyle
-                        .copyWith(color: PdfColors.black)));
+                margin: const pw.EdgeInsets.only(
+                    bottom: 0.5 * PdfPageFormat.cm,
+                    right: 23.5 * PdfPageFormat.mm,
+                    left: 23.5 * PdfPageFormat.mm),
+                child: pw.Row(
+                    mainAxisSize: pw.MainAxisSize.max,
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text(pageTitleController.text,
+                          style: pw.Theme.of(context).defaultTextStyle.copyWith(
+                              color: PdfColors.black,
+                              fontWeight: pw.FontWeight.bold)),
+                      pw.Text('${context.pageNumber} / ${context.pagesCount}',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black))
+                    ]));
           },
           build: (pw.Context context) => [
                 pw.Wrap(
                     children: qrColumns,
-                    spacing: 30,
-                    runSpacing: 30,
+                    spacing: 20,
+                    runSpacing: 20,
                     alignment: pw.WrapAlignment.center),
               ]));
     }
@@ -189,28 +203,23 @@ class HomeController extends GetxController {
       pdf.addPage(pw.MultiPage(
           header: (pw.Context context) {
             return pw.Container(
-                alignment: pw.Alignment.centerRight,
-                margin:
-                    const pw.EdgeInsets.only(bottom: 6.0 * PdfPageFormat.mm),
-                padding:
-                    const pw.EdgeInsets.only(bottom: 6.0 * PdfPageFormat.mm),
-                decoration: const pw.BoxDecoration(
-                    border: pw.Border(
-                        bottom:
-                            pw.BorderSide(width: 0.5, color: PdfColors.grey))),
-                child: pw.Text('Lines',
-                    style: pw.Theme.of(context)
-                        .defaultTextStyle
-                        .copyWith(color: PdfColors.black)));
-          },
-          footer: (pw.Context context) {
-            return pw.Container(
                 alignment: pw.Alignment.center,
-                margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-                child: pw.Text('${context.pageNumber} / ${context.pagesCount}',
-                    style: pw.Theme.of(context)
-                        .defaultTextStyle
-                        .copyWith(color: PdfColors.black)));
+                margin: const pw.EdgeInsets.only(
+                  bottom: 0.5 * PdfPageFormat.cm,
+                ),
+                child: pw.Row(
+                    mainAxisSize: pw.MainAxisSize.max,
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text(pageTitleController.text,
+                          style: pw.Theme.of(context).defaultTextStyle.copyWith(
+                              color: PdfColors.black,
+                              fontWeight: pw.FontWeight.bold)),
+                      pw.Text('${context.pageNumber} / ${context.pagesCount}',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black))
+                    ]));
           },
           build: (pw.Context context) => [
                 pw.TableHelper.fromTextArray(
@@ -314,7 +323,7 @@ class HomeController extends GetxController {
               onLayout: (PdfPageFormat format) async => pdf.save());
         };
         backButton = ElevatedButton.icon(
-          onPressed: () => currentStep.value = 0,
+          onPressed: () => onRestart(),
           icon: const Icon(Icons.refresh),
           label: const Text("Restart"),
         );

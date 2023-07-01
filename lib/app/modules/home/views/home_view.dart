@@ -67,10 +67,17 @@ class HomeView extends GetView<HomeController> {
                             : [
                                 Column(
                                   children: [
+                                    Chip(
+                                      avatar: const Icon(Icons.file_open),
+                                      label: Text(controller.filename.value),
+                                    ),
                                     ListTile(
-                                      leading: const Icon(Icons.file_open),
-                                      title: Text(controller.filename.value),
-                                      subtitle: const Text("Selected file"),
+                                      leading: Icon(Icons.title),
+                                      title: TextField(
+                                        controller:
+                                            controller.pageTitleController,
+                                      ),
+                                      subtitle: Text("Page title"),
                                     ),
                                     ListTile(
                                       leading:
@@ -82,7 +89,7 @@ class HomeView extends GetView<HomeController> {
                                             borderRadius:
                                                 BorderRadius.circular(4.0),
                                             constraints: const BoxConstraints(
-                                                minHeight: 36.0),
+                                                minHeight: 34.0),
                                             isSelected:
                                                 controller.paperSizeSelection,
                                             onPressed: (index) {
@@ -95,12 +102,12 @@ class HomeView extends GetView<HomeController> {
                                             children: const [
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: 16.0),
+                                                    horizontal: 14.0),
                                                 child: Text('A4'),
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: 16.0),
+                                                    horizontal: 14.0),
                                                 child: Text('Letter'),
                                               ),
                                             ],
