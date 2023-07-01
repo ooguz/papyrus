@@ -126,6 +126,15 @@ class HomeView extends GetView<HomeController> {
                                       subtitle: const Text(
                                           "Recommended, this option adds OCR readable text with checksums for each line"),
                                     ),
+                                    ListTile(
+                                      leading: Checkbox(
+                                          value: controller.zebraChecked.value,
+                                          onChanged: controller.zebra),
+                                      enabled: controller.ocrChecked.value,
+                                      title: const Text('Zebra-stripped table'),
+                                      subtitle: const Text(
+                                          "Make OCR page lines zebra stripped. It makes lines easy to follow by eye but may cause OCR errors."),
+                                    ),
                                   ],
                                 ),
                               ],
