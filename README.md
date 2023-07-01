@@ -16,12 +16,12 @@
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/ooguz/papyrus/total) ![Contributors](https://img.shields.io/github/contributors/ooguz/papyrus?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/ooguz/papyrus?style=social) ![Issues](https://img.shields.io/github/issues/ooguz/papyrus) ![License](https://img.shields.io/github/license/ooguz/papyrus) 
+![Downloads](https://img.shields.io/github/downloads/ooguz/papyrus/total) ![Contributors](https://img.shields.io/github/contributors/ooguz/papyrus?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/ooguz/papyrus?style=social) ![Issues](https://img.shields.io/github/issues/ooguz/papyrus) ![License](https://img.shields.io/github/license/ooguz/papyrus) <a href="https://www.buymeacoffee.com/oogu" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 85px !important;" ></a>
 
 
 ## About 
 
-![Screenshot](https://github.com/ooguz/papyrus/assets/17238191/dce455ee-5161-4abc-bf0c-474cc52d4752)
+![Screenshot](https://github.com/ooguz/papyrus/assets/17238191/d1596080-227d-42e7-a9b8-ff6e94f27b12)
 
 If you are working with GnuPG or SSH, you will probably understand the fear of losing your keys. This tool makes a "hard copy" of your text files including but not limited to your keys, 2FA backups, config files etc. 
 
@@ -73,9 +73,9 @@ papyrus
 
 ## Example output
 
-|QR pages|OCR pages|OCR zebra|
+|QR pages|OCR zebra|OCR plain|
 |----|----|----|
-|![image](https://github.com/ooguz/papyrus/assets/17238191/6c26d924-b083-431f-9979-086069a2131a)|![image](https://github.com/ooguz/papyrus/assets/17238191/b37a2f86-c0c7-4d3f-a1b8-cb3d3f61c55a)|![image](https://github.com/ooguz/papyrus/assets/17238191/df429ff8-c6a9-4b99-9ed0-66a41cedb84d)|
+|![image](https://github.com/ooguz/papyrus/assets/17238191/582a80f2-ffdc-41e9-b8ad-e23b5577155f)|![image](https://github.com/ooguz/papyrus/assets/17238191/facf3275-ce0a-416a-ab72-9f1075efe5b9)|![image](https://github.com/ooguz/papyrus/assets/17238191/39836813-7c5a-40c2-9dd3-92f642183056)|
 
 
 
@@ -86,7 +86,7 @@ papyrus
 * Implement andOTP (or similiar) backup parser function
 * Implement password manager (KeePassXC, pass etc.) parser
 * Add restore from scan function
-* Add custom title and description to PDF
+* ~~Add custom title and description to PDF~~
 
 ## Contributing
 

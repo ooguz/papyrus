@@ -16,6 +16,12 @@
  You should have received a copy of the GNU General Public License
  along with Papyrus.  If not, see <http://www.gnu.org/licenses/>.
 -->
+# 1.1.2
+
+- New zebra-stripped page function for OCR pages
+- Add ability to set page title
+- Now there are 6 QR codes per page, to save paper
+
 
 # 1.0.1
 
