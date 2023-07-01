@@ -1,5 +1,5 @@
 name: papyrus
-version: 1.0.1+1
+version: 1.1.2+4
 publish_to: none
 description: A simple paper backup tool.
 homepage: https://github.com/ooguz/papyrus
