@@ -49,3 +49,5 @@ appimage-builder-cache/
 dist/
 *.AppImage
 AppImageBuilder.yml
+*.snap
+*.pdf
