@@ -1,4 +1,4 @@
-<br/>
+
 <p align="center">
   <a href="https://github.com/ooguz/papyrus">
     <img src="https://github.com/ooguz/papyrus/assets/17238191/d8bf4dbe-117a-48d0-8905-9849e1119f57" alt="Logo" width="80" height="80">
@@ -21,7 +21,7 @@
 
 ## About 
 
-![Screen Shot](https://github.com/ooguz/papyrus/assets/17238191/cc0d6c44-88ba-4dab-a388-863e86124788)
+![Screenshot](https://github.com/ooguz/papyrus/assets/17238191/dce455ee-5161-4abc-bf0c-474cc52d4752)
 
 If you are working with GnuPG or SSH, you will probably understand the fear of losing your keys. This tool makes a "hard copy" of your text files including but not limited to your keys, 2FA backups, config files etc. 
 
@@ -73,9 +73,10 @@ papyrus
 
 ## Example output
 
-|QR pages|OCR pages|
-|----|----|
-|![image](https://github.com/ooguz/papyrus/assets/17238191/6c26d924-b083-431f-9979-086069a2131a)|![image](https://github.com/ooguz/papyrus/assets/17238191/b37a2f86-c0c7-4d3f-a1b8-cb3d3f61c55a)|
+|QR pages|OCR pages|OCR zebra|
+|----|----|----|
+|![image](https://github.com/ooguz/papyrus/assets/17238191/6c26d924-b083-431f-9979-086069a2131a)|![image](https://github.com/ooguz/papyrus/assets/17238191/b37a2f86-c0c7-4d3f-a1b8-cb3d3f61c55a)|![image](https://github.com/ooguz/papyrus/assets/17238191/df429ff8-c6a9-4b99-9ed0-66a41cedb84d)|
+
 
 
 
