@@ -24,6 +24,7 @@ class HomeController extends GetxController {
   var paperSizeSelection = <bool>[true, false].obs;
   final qrChecked = true.obs;
   final ocrChecked = true.obs;
+  final zebraChecked = true.obs;
   final currentStep = 0.obs;
   final directoryToWrite = ".".obs;
   late pw.Document pdf;
@@ -47,6 +48,9 @@ class HomeController extends GetxController {
         theme: pdfTheme);
     super.onInit();
   }
+
+  Function(bool?)? get zebra =>
+      ocrChecked.value ? (bool? value) => zebraChecked.value = value! : null;
 
   Future<FileResult> filePicker() async {
     FilePickerResult? result;
@@ -210,6 +214,9 @@ class HomeController extends GetxController {
           },
           build: (pw.Context context) => [
                 pw.TableHelper.fromTextArray(
+                  oddRowDecoration: zebraChecked.value
+                      ? pw.BoxDecoration(color: PdfColor.fromHex("#ededed"))
+                      : null,
                   data: hashes,
                   border: pw.TableBorder.all(style: pw.BorderStyle.none),
                   cellStyle: pw.TextStyle(
@@ -219,7 +226,7 @@ class HomeController extends GetxController {
                   cellPadding: const pw.EdgeInsets.all(0),
                   headerStyle:
                       pw.TextStyle(font: pw.Font.ttf(fonts.courier.bold)),
-                )
+                ),
               ]));
     }
     final file = File(path);
@@ -285,6 +292,7 @@ class HomeController extends GetxController {
                 ocrText: ocrChecked.value,
                 letterPaper: paperSizeSelection[1]);
           } catch (e) {
+            debugPrint(e.toString());
             Get.snackbar("Error", "PDF creation failed",
                 snackPosition: SnackPosition.BOTTOM);
             loading.value = false;
