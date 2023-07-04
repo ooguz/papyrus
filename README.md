@@ -16,7 +16,7 @@
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/ooguz/papyrus/total) ![Contributors](https://img.shields.io/github/contributors/ooguz/papyrus?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/ooguz/papyrus?style=social) ![Issues](https://img.shields.io/github/issues/ooguz/papyrus) ![License](https://img.shields.io/github/license/ooguz/papyrus) <a href="https://www.buymeacoffee.com/oogu" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 85px !important;" ></a>
+![Downloads](https://img.shields.io/github/downloads/ooguz/papyrus/total) ![Contributors](https://img.shields.io/github/contributors/ooguz/papyrus?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/ooguz/papyrus?style=social) ![Issues](https://img.shields.io/github/issues/ooguz/papyrus) ![License](https://img.shields.io/github/license/ooguz/papyrus) <a href="https://www.buymeacoffee.com/ooguz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 85px !important;" ></a>
 
 
 ## About 
