@@ -1,0 +1,52 @@
+name: papyrus
+version: 1.1.2
+summary: Papyrus
+description: A simple paper backup tool
+icon: snap/gui/papyrus.png
+license: GPL-3.0-or-later
+website: https://github.com/ooguz/papyrus
+issues: https://github.com/ooguz/papyrus/issues
+source-code: https://github.com/ooguz/papyrus
+contact: https://ozcanoguz.com.tr
+donation: https://www.buymeacoffee.com/ooguz
+title: Papyrus
+
+
+confinement: strict
+base: core22
+grade: stable
+architectures:
+  - amd64
+  - arm64
+
+
+slots:
+  dbus-papyrus: # adjust accordingly to your app name
+    interface: dbus
+    bus: session
+    name: dev.ooguz.papyrus # adjust accordingly to your app name and
+    
+apps:
+  papyrus:
+    command: papyrus
+    extensions: [gnome]
+    slots:
+      - dbus-papyrus
+parts:
+  zenity:
+    plugin: nil
+    stage-packages:
+      - zenity
+  papyrus:
+    after:
+      - zenity
+    source: .
+    build-packages:
+      - pkg-config
+      - libgtk-3-0
+    override-pull: |
+      set -eux
+      rm -rf $SNAPCRAFT_PROJECT_DIR/build
+      snapcraftctl pull
+    plugin: flutter
+    flutter-target: lib/main.dart # The main entry-point file of the application

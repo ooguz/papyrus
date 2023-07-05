@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Papyrus
+Comment=A simple paper backup tool
+Exec=papyrus
+Icon=${SNAP}/meta/gui/papyrus.png
+Terminal=false
+Type=Application
+Categories=Utility
