@@ -71,12 +71,12 @@ class HomeView extends GetView<HomeController> {
                                       label: Text(controller.filename.value),
                                     ),
                                     ListTile(
-                                      leading: Icon(Icons.title),
+                                      leading: const Icon(Icons.title),
                                       title: TextField(
                                         controller:
                                             controller.pageTitleController,
                                       ),
-                                      subtitle: Text("Page title"),
+                                      subtitle: const Text("Page title"),
                                     ),
                                     ListTile(
                                       leading:
