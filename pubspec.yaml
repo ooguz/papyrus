@@ -21,6 +21,7 @@ dependencies:
   crypto: ^3.0.3
   url_launcher: ^6.1.11
   about: ^2.1.3
+  getx_test: ^1.0.3
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
