@@ -13,10 +13,13 @@
     <a href="https://github.com/ooguz/papyrus/issues">Report Bug</a>
     --
     <a href="https://github.com/ooguz/papyrus/issues">Request Feature</a>
+    <br/>
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/ooguz/papyrus/total) ![Contributors](https://img.shields.io/github/contributors/ooguz/papyrus?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/ooguz/papyrus?style=social) ![Issues](https://img.shields.io/github/issues/ooguz/papyrus) ![License](https://img.shields.io/github/license/ooguz/papyrus) <a href="https://www.buymeacoffee.com/ooguz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 85px !important;" ></a>
+
+
+[![papyrus](https://snapcraft.io/papyrus/badge.svg)](https://snapcraft.io/papyrus) ![Downloads](https://img.shields.io/github/downloads/ooguz/papyrus/total) ![Contributors](https://img.shields.io/github/contributors/ooguz/papyrus?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/ooguz/papyrus?style=social) ![Issues](https://img.shields.io/github/issues/ooguz/papyrus) ![License](https://img.shields.io/github/license/ooguz/papyrus) <a href="https://www.buymeacoffee.com/ooguz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 85px !important;" ></a>
 
 
 ## About 
@@ -30,6 +33,15 @@ Papyrus can produce a PDF output which consist of QR codes made from your file t
 My personal recommendation is to print your paper backup with laser printer to acid-free paper, put it into a plastic bag (Mylar is preferred) and seal it with a heat sealer (you can find one around 25 USD, also useful for food packaging).
 
 ## Installation
+
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/papyrus)
+
+```
+sudo snap install papyrus
+```
+
+### GitHub Releases
 
 Go to the [Releases](https://github.com/ooguz/papyrus/releases) page and download the package for your distribution and signatures.
 
