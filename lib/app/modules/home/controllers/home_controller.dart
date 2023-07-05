@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:papyrus/constants.dart';
-import 'package:papyrus/helpers.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:crypto/crypto.dart';
@@ -282,18 +281,26 @@ class HomeController extends GetxController {
         nextIcon = Icons.picture_as_pdf;
         nextAction = () async {
           loading.value = true;
-
-          String? selectedDirectory = await FilePicker.platform.saveFile(
-            dialogTitle: 'Please select an output file:',
-            fileName: 'paper-backup.pdf',
-          );
+          String? selectedDirectory;
+          if (!Platform.isAndroid) {
+            selectedDirectory = await FilePicker.platform.saveFile(
+              dialogTitle: 'Please select an output file:',
+              fileName: 'paper-backup.pdf',
+            );
+          } else {
+            selectedDirectory = await FilePicker.platform.getDirectoryPath(
+              dialogTitle: 'Please select an output file:',
+            );
+          }
           if (selectedDirectory == null) {
             loading.value = false;
             Get.snackbar("Error", "Please select a save directory",
                 snackPosition: SnackPosition.BOTTOM);
             return;
           }
-          directoryToWrite.value = selectedDirectory;
+          directoryToWrite.value = Platform.isAndroid
+              ? "$selectedDirectory/${pageTitleController.text.replaceAll(" ", "-")}.pdf"
+              : selectedDirectory;
           try {
             await generatePdf(
                 path: directoryToWrite.value,

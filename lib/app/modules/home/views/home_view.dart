@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:papyrus/helpers.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/home_controller.dart';
-import 'package:about/about.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
