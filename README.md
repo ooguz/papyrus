@@ -10,9 +10,9 @@
     A simple paper backup tool
     <br/>
     <br/>
-    <a href="https://github.com/ooguz/papyrus/issues">Report Bug</a>
+    <a href="https://github.com/ooguz/papyrus/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=">Report Bug</a>
     --
-    <a href="https://github.com/ooguz/papyrus/issues">Request Feature</a>
+    <a href="https://github.com/ooguz/papyrus/issues/new?assignees=&labels=&projects=&template=feature_request.md&title=">Request Feature</a>
     <br/>
   </p>
 </p>
