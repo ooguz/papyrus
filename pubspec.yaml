@@ -11,11 +11,11 @@ environment:
 
 dependencies: 
   cupertino_icons: ^1.0.2
-  get: 4.6.5
+  get: ^4.6.6
   flutter: 
     sdk: flutter
   pdf: ^3.10.4
-  file_picker: ^5.3.2
+  file_picker: ^8.1.7
   auto_size_text: ^3.0.0
   printing: ^5.11.0
   crypto: ^3.0.3
@@ -24,7 +24,7 @@ dependencies:
   getx_test: ^1.0.3
 
 dev_dependencies: 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
   flutter_test: 
     sdk: flutter
 
